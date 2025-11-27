@@ -1,0 +1,19 @@
+name: CI
+
+on: push
+
+jobs:
+  spec:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        
+      - name: Build and start necessary containers
+        run: make dev-up
+
+      - name: Lint
+        run: make check
+
+      - name: Spec
+        run: |
+          make spec

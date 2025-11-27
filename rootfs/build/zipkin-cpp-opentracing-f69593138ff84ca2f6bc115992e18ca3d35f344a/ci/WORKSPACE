@@ -1,0 +1,15 @@
+workspace(name = "com_github_rnburn_zipkin_opentracing")
+
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
+
+git_repository(
+    name = "io_opentracing_cpp",
+    remote = "https://github.com/opentracing/opentracing-cpp",
+    commit = "4bb431f7728eaf383a07e86f9754a5b67575dab0",
+)
+
+new_local_repository(
+    name = "se_haxx_curl_libcurl",
+    path = "/usr",
+    build_file = "BUILD.curl"
+)

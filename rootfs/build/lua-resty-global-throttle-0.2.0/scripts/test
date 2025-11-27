@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -o errexit
+set -o nounset
+set -o pipefail
+
+docker run -w /lua --rm -it -v ${PWD}:/lua test-cli prove -r t/

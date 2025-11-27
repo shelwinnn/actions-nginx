@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -o errexit
+set -o nounset
+set -o pipefail
+
+luacheck -q lib
+lj-releng lib/resty/*.lua lib/resty/**/*.lua lib/resty/**/**/*.lua
