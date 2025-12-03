@@ -18,7 +18,7 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-export NGINX_VERSION=1.27.5
+export NGINX_VERSION=1.27.1
 
 # Check for recent changes: https://github.com/vision5/ngx_devel_kit/compare/v0.3.3...master
 export NDK_VERSION=v0.3.3
@@ -107,6 +107,9 @@ export OPENTELEMETRY_PROTO_VERSION=v1.5.0
 # Check for recent changes: https://github.com/nginx/njs/compare/0.9.0...master
 export NJS_VERSION=0.9.0
 
+# Check for recent changes: https://github.com/ElvinEfendi/lua-resty-global-throttle/compare/v0.2.0...main
+export LUA_RESTY_GLOBAL_THROTTLE_VERSION=0.2.0
+
 export BUILD_PATH=/tmp/build
 
 ARCH=$(uname -m)
@@ -189,7 +192,7 @@ mkdir --verbose -p "$BUILD_PATH"
 cd "$BUILD_PATH"
 
 # download, verify and extract the source files
-get_src e96acebb9c2a6db8a000c3dd1b32ecba1b810f0cd586232d4d921e376674dd0e \
+get_src 66dc7081488811e9f925719e34d1b4504c2801c81dee2920e5452a86b11405ae \
         "https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz"
 
 get_src aa961eafb8317e0eb8da37eb6e2c9ff42267edd18b56947384e719b85188f58b \
@@ -272,6 +275,9 @@ get_src d74f86ada2329016068bc5a243268f1f555edd620b6a7d6ce89295e7d6cf18da \
 
 get_src abc123 \
         "https://github.com/nginx/njs/archive/${NJS_VERSION}.tar.gz" "njs"
+
+get_src 0fb790e394510e73fdba1492e576aaec0b8ee9ef08e3e821ce253a07719cf7ea \
+        "https://github.com/ElvinEfendi/lua-resty-global-throttle/archive/v$LUA_RESTY_GLOBAL_THROTTLE_VERSION.tar.gz"		
 
 # improve compilation times
 CORES=$(($(grep -c ^processor /proc/cpuinfo) - 1))
@@ -582,6 +588,8 @@ make install
 cd "$BUILD_PATH/lua-resty-ipmatcher"
 INST_LUADIR=/usr/local/lib/lua make install
 
+cd "$BUILD_PATH/lua-resty-global-throttle-$LUA_RESTY_GLOBAL_THROTTLE_VERSION"
+make install
 cd "$BUILD_PATH/mimalloc"
 mkdir -p out/release
 cd out/release
