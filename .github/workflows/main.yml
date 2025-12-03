@@ -22,4 +22,5 @@ jobs:
       run: |
         docker login registry.hub.docker.com -u "${DOCKERHUB_USERNAME}" -p "${DOCKERHUB_PASSWORD}"
         docker login docker.io -u "${DOCKERHUB_USERNAME}" -p "${DOCKERHUB_PASSWORD}"
-        make push REGISTRY=shelwin/ingress-nginx PLATFORMS=linux/amd64,linux/arm64
+        docker login registry-1.docker.io -u "${DOCKERHUB_USERNAME}" -p "${DOCKERHUB_PASSWORD}"
+        make push IMAGE=shelwin/ingress-nginx-base PLATFORMS=linux/amd64,linux/arm64
